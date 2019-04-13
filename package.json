@@ -1,0 +1,15 @@
+{
+  "name": "nodejs-amazonclone",
+  "version": "1.0.0",
+  "description": "this is a ecommerce",
+  "main": "server.js",
+  "author": "Junior Silva",
+  "license": "MIT",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "dependencies": {
+    "express": "^4.16.4",
+    "nodemon": "^1.18.11"
+  }
+}
