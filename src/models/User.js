@@ -21,7 +21,7 @@ const UserSchema = new Schema({
   ]
 });
 // Hash a senha antes de salvá-la no banco de dados
-UserSchema.pre("save", next => {
+UserSchema.pre("save", function(next) {
   let user = this;
   if (!user.isModified("password")) return next();
   bcrypt.genSalt(10, (error, salt) => {
@@ -33,8 +33,9 @@ UserSchema.pre("save", next => {
     });
   });
 });
+
 // comparar a senha no banco de dados com a senha que o usuário digitou
-UserSchema.methods.comparePassword = password => {
+UserSchema.methods.comparePassword = function(password) {
   return bcrypt.compareSync(password, this.password);
 };
 module.exports = mongoose.model("User", UserSchema);
