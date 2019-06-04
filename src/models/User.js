@@ -2,7 +2,6 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt-nodejs");
 const Schema = mongoose.Schema;
 
-// Atributos do Esquema de usuário, campos, caracteristicas
 const UserSchema = new Schema({
   email: { type: String, unique: true, lowercase: true },
   password: String,
@@ -20,7 +19,7 @@ const UserSchema = new Schema({
     }
   ]
 });
-// Hash a senha antes de salvá-la no banco de dados
+
 UserSchema.pre("save", function(next) {
   let user = this;
   if (!user.isModified("password")) return next();
@@ -34,7 +33,6 @@ UserSchema.pre("save", function(next) {
   });
 });
 
-// comparar a senha no banco de dados com a senha que o usuário digitou
 UserSchema.methods.comparePassword = function(password) {
   return bcrypt.compareSync(password, this.password);
 };

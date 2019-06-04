@@ -1,9 +1,29 @@
 const User = require("../models/User");
-
 class UserController {
+  index(req, res) {
+    return res.render("./accounts/signup", {
+      errors: req.flash("errors")
+    });
+  }
+
   async store(req, res) {
-    const user = await User.create(req.body);
-    return res.json(user);
+    const user = new User();
+
+    user.profile.name = req.body.name;
+    user.email = req.body.email;
+    user.password = req.body.password;
+
+    if (await User.findOne({ email: req.body.email })) {
+      req.flash("errors", "O email informado já está em uso!");
+      return res.redirect("/signup");
+    }
+    await User.create(user, (error, user) => {
+      if (error) return next(error);
+      req.logIn(user, error => {
+        if (error) return next(error);
+        res.redirect("/profile");
+      });
+    });
   }
 
   async show(req, res) {
