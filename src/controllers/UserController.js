@@ -12,6 +12,7 @@ class UserController {
     user.profile.name = req.body.name;
     user.email = req.body.email;
     user.password = req.body.password;
+    user.profile.picture = user.gravatar();
 
     if (await User.findOne({ email: req.body.email })) {
       req.flash("errors", "O email informado já está em uso!");
